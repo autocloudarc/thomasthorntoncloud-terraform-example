@@ -9,7 +9,7 @@ on:
 env:
   tf_version: 1.5.0
   workingDir: terraform
-  planOnly: true
+  apply: true
 
 jobs:
   terraform:
@@ -35,6 +35,7 @@ jobs:
     - name: 'Terraform Format'
       run: terraform fmt -recursive
         
+    # Initialize
     - name: 'Terraform Init'
       uses: hashicorp/terraform-github-actions@master
       with:
@@ -42,22 +43,21 @@ jobs:
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: ${{ env.workingDir }}
 
+    # Validate
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: ${{ env.tf_version }}
         tf_actions_subcommand: 'validate'
         tf_actions_working_dir: ${{ env.workingDir }}
-        
+    
+    # Plan
     - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: ${{ env.tf_version }}
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: ${{ env.workingDir }}
+      run: terraform plan
 
+    # Apply
     - name: Terraform Apply
-      if: ${{ env.planOnly }} == 'false'
+      if: ${{ env.apply }} == 'true'
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: ${{ env.tf_version }}
