@@ -9,7 +9,7 @@ on:
 env:
   tf_version: 1.5.0
   workingDir: terraform
-  apply: true
+  apply: false
 
 jobs:
   terraform:
@@ -61,7 +61,7 @@ jobs:
 
     # Apply
     - name: Terraform Apply
-      if: ${{ env.apply }} == 'true'
+      if: ${{ env.apply == 'true' }}
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: ${{ env.tf_version }}
