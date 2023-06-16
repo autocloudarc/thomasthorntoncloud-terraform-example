@@ -33,7 +33,7 @@ jobs:
 
     # Format
     - name: 'Terraform Format'
-      run: terraform fmt -recursive
+      run: ${{ env.workingDir }}/terraform fmt -recursive
         
     # Initialize
     - name: 'Terraform Init'
@@ -53,7 +53,7 @@ jobs:
     
     # Plan
     - name: 'Terraform Plan'
-      run: terraform plan
+      run: ${{ env.workingDir }}/terraform plan
 
     # Apply
     - name: Terraform Apply
